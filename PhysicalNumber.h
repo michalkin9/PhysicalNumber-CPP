@@ -17,6 +17,7 @@ namespace ariel{
         public:
             PhysicalNumber(double num ,Unit unit); 
             Unit getUnit();
+            double getNumber();
 
             friend std::ostream& operator<<(ostream& os, const PhysicalNumber& num);
             friend std::istream& operator>>(istream& os, const PhysicalNumber& num);
@@ -46,7 +47,9 @@ namespace ariel{
 
             private:
             void sameDimension(const PhysicalNumber& num)const;
-
+            int coefficientConvert(Unit type2);
+            const PhysicalNumber convert(int convert,const PhysicalNumber& num);
+            
 
     };
 
