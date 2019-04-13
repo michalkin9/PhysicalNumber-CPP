@@ -45,9 +45,11 @@ namespace ariel{
             friend bool operator>=(const PhysicalNumber& left, const PhysicalNumber& right);
             friend bool operator<=(const PhysicalNumber& left, const PhysicalNumber& right);
 
+            
+
             private:
             void sameDimension(const PhysicalNumber& num)const;
-            int coefficientConvert(Unit type2);
+            double coefficientConvert(Unit type2);
             const PhysicalNumber convert(int convert,const PhysicalNumber& num);
             
 

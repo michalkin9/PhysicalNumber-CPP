@@ -32,7 +32,7 @@ namespace ariel{
     
     }
 
-    int PhysicalNumber::coefficientConvert(Unit type2){
+    double PhysicalNumber::coefficientConvert(Unit type2){
     double coefficient=1;
     int dimension =(int)this->type % 3;  
 
@@ -54,7 +54,7 @@ namespace ariel{
              break;
         //Time dimention
          case 1:
-         if(type2 == Unit::SEC && this->type == Unit::MIN) { coefficient = 0.0166667; }
+         if(type2 == Unit::SEC && this->type == Unit::MIN) { coefficient = 0.0166667; } 
          if(type2 == Unit::SEC && this->type == Unit::HOUR) { coefficient = 0.000277778; }
          if(type2 == Unit::MIN && this->type == Unit::SEC) { coefficient = 60; }
          if(type2 == Unit::MIN && this->type == Unit::HOUR) { coefficient = 0.0166667; }
