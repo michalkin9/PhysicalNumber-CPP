@@ -1,16 +1,16 @@
 #pragma once
 namespace ariel {
 
-enum class Unit {
-    CM,
-    M,
-    KM,
-    SEC,
-    MIN,
-    HOUR,
-    G,
-    KG,
-    TON
+enum class Unit { //same dimension same % 3 
+CM,
+SEC,
+G,
+M,
+MIN,
+KG,
+KM,
+HOUR,
+TON
 };
 }
 
