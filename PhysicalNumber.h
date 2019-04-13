@@ -12,12 +12,12 @@ namespace ariel{
         private:
             double number;
             Unit type;
-            bool isValid(const PhysicalNumber a,const PhysicalNumber b); //to check if the unit is from the same dimantion
+
 
         public:
-            PhysicalNumber(double num ,Unit unit); //to impliment here
-            Unit getUnit(const string _type);
-    
+            PhysicalNumber(double num ,Unit unit); 
+            Unit getUnit();
+
             friend std::ostream& operator<<(ostream& os, const PhysicalNumber& num);
             friend std::istream& operator>>(istream& os, const PhysicalNumber& num);
     
@@ -44,7 +44,11 @@ namespace ariel{
             friend bool operator>=(const PhysicalNumber& left, const PhysicalNumber& right);
             friend bool operator<=(const PhysicalNumber& left, const PhysicalNumber& right);
 
+            private:
+            void sameDimension(const PhysicalNumber& num)const;
+
 
     };
 
- }
+
+}

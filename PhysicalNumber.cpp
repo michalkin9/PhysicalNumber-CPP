@@ -11,7 +11,23 @@ namespace ariel{
         this->number = _number;
         this->type = _type;
     }
+
+    Unit PhysicalNumber::getUnit(){
+    return this->type;
+    }
+
+    //checks if from the same dimension, if not throws exception
+    void PhysicalNumber::sameDimension(const PhysicalNumber &num) const{
+
+        int unit1 = (int)this->type % 3;
+        int unit2 = (int)num.type % 3;
+
+        if(unit1 != unit2){
+            throw string("Physical numbers are not from the same dimension.");
+        }
     
+    }
+
     const PhysicalNumber& PhysicalNumber::operator+= (const PhysicalNumber& num){
         return *this;
     }
@@ -73,4 +89,7 @@ namespace ariel{
         return is;
     }
 
+
 };
+
+
