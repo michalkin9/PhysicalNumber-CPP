@@ -7,31 +7,40 @@ using namespace ariel;
 
 namespace ariel{
 
+    Unit PhysicalNumber::getUnit() const{
+        return type;
+    }
+    
+    double PhysicalNumber::getNumber() const {
+        return number;
+    }
+            
+    void PhysicalNumber::setNumber(const double _number){
+		this->number = _number; 
+    }
+    
+    void PhysicalNumber::setUnit(const Unit _type){
+		this->type = _type; 
+    }
+
     PhysicalNumber::PhysicalNumber(double _number, Unit _type){
         this->number = _number;
         this->type = _type;
     }
-
-    Unit PhysicalNumber::getUnit(){
-    return this->type;
-    }
-
-    double PhysicalNumber::getNumber(){
-        return this->number;
-    }
-
+    
     //checks if from the same dimension, if not throws exception
-    void PhysicalNumber::sameDimension(const PhysicalNumber &num) const{
+    bool PhysicalNumber::sameDimension(const PhysicalNumber &num) const{
 
         int unit1 = (int)this->type % 3;
         int unit2 = (int)num.type % 3;
 
         if(unit1 != unit2){
-            throw string("Physical numbers are not from the same dimension.");
+            return false;
         }
+        return true;
     
     }
-
+    
     double PhysicalNumber::coefficientConvert(Unit type2){
     double coefficient=1;
     int dimension =(int)this->type % 3;  
@@ -85,44 +94,108 @@ namespace ariel{
 
         return PhysicalNumber(new_number,new_unit); 
     }
+    
+    const PhysicalNumber& PhysicalNumber::operator+= (const PhysicalNumber& other){ // ****************new*********************
+        if(this->sameDimension(other)){
+            double coef = this->coefficientConvert(other.getUnit());
+            PhysicalNumber sameUnit = this->convert(coef, other);
+            double firstVal = this->getNumber();
+            double secondVal = sameUnit.getNumber(); // conv to default Unit.
+            double res = (firstVal + secondVal); // convert to the result unit
+            this->setNumber(res);
+            //PhysicalNumber result(res, resultUnit);
+            return *this;
+        }
+        else throw string("Physical numbers are not from the same dimension.");
+    }
 
-
-    const PhysicalNumber& PhysicalNumber::operator+= (const PhysicalNumber& num){
-        return *this;
+    const PhysicalNumber& PhysicalNumber::operator-= (const PhysicalNumber& other){ //works!
+        if(sameDimension(other)){
+            double coef = this->coefficientConvert(other.getUnit());
+            PhysicalNumber sameUnit = this->convert(coef, other);
+            double firstVal = this->getNumber();
+            double secondVal = sameUnit.getNumber(); // conv to default Unit.
+            double res = (firstVal - secondVal); // convert to the result unit
+            this->setNumber(res);
+            //PhysicalNumber result(res, resultUnit);
+            return *this;
+        }
+        else throw string("Physical numbers are not from the same dimension.");
     }
-    const PhysicalNumber& PhysicalNumber::operator-= (const PhysicalNumber& num){
+    
+    PhysicalNumber PhysicalNumber::operator+ (const PhysicalNumber& other){ //works!
+        if(!sameDimension(other)){
+            throw string("Physical numbers are not from the same dimension.");
+        }
+        else{
+            double coef = this->coefficientConvert(other.getUnit());
+            PhysicalNumber sameUnit = this->convert(coef, other);
+            double firstVal = this->getNumber(); // calculate on the same type
+            double secondVal = sameUnit.getNumber(); // calculate on the same type
+            double res = (firstVal + secondVal); // back to unit we want
+            PhysicalNumber newNum(res, sameUnit.getUnit()); // creates new object
+            return newNum;
+            
+        }
+    }
+    
+    PhysicalNumber PhysicalNumber::operator- (const PhysicalNumber& other){ //works!
+        if(!sameDimension(other)){
+            throw string("Physical numbers are not from the same dimension.");
+        }
+        else{
+            double coef = this->coefficientConvert(other.getUnit());
+            PhysicalNumber sameUnit = this->convert(coef, other);
+            double firstVal = this->getNumber(); // calculate on the same type
+            double secondVal = sameUnit.getNumber(); // calculate on the same type
+            double res = (firstVal - secondVal); // back to unit we want
+            PhysicalNumber newNum(res, sameUnit.getUnit()); // creates new object
+            return newNum;
+            
+        }
+    }
+    
+    const PhysicalNumber PhysicalNumber::operator- (){ //works!
+        double newNum = this->getNumber();
+        newNum *= (-1);
+        this->setNumber(newNum);
         return *this;
     }
     
-    PhysicalNumber PhysicalNumber::operator+ (const PhysicalNumber& num){
-        // return PhysicalNumber(this->number, this->type);
-        return *this;
-    }
-    PhysicalNumber PhysicalNumber::operator- (const PhysicalNumber& num){
+    const PhysicalNumber PhysicalNumber::operator+ () const{ //works!
         return *this;
     }
     
-    const PhysicalNumber PhysicalNumber::operator- () const{
-        return *this;
-    } 
-    const PhysicalNumber PhysicalNumber::operator+ () const{
-        return *this;
-    }
-    
-    PhysicalNumber& PhysicalNumber::operator++ () {
-        return *this;
-    }
-    const PhysicalNumber PhysicalNumber::operator++ (int) {
-        return *this;
-    }
-    PhysicalNumber& PhysicalNumber::operator-- () {
-        return *this;
-    }
-    const PhysicalNumber PhysicalNumber::operator-- (int) {
+    PhysicalNumber& PhysicalNumber::operator++ () { // works!
+        double newNum = this->getNumber();
+        this->setNumber(++newNum);
         return *this;
     }
     
-    bool operator>=(const PhysicalNumber& left, const PhysicalNumber& right){
+    const PhysicalNumber PhysicalNumber::operator++ (int) { // works!
+        PhysicalNumber res(this->getNumber(), this->getUnit());
+        double newNum = this->getNumber();
+        ++newNum;
+        this->setNumber(newNum);
+        return res;
+    }
+    
+    PhysicalNumber& PhysicalNumber::operator-- () { //works!
+        double newNum = this->getNumber();
+        this->setNumber(--newNum);
+        return *this;
+    }
+    
+    const PhysicalNumber PhysicalNumber::operator-- (int) { //works!
+        PhysicalNumber res(this->getNumber(), this->getUnit());
+        double newNum = this->getNumber();
+        --newNum;
+        res.setNumber(newNum);
+        return res;
+    }
+    
+    bool operator>=(const PhysicalNumber& left, const PhysicalNumber& right){ 
+    
         return true;
     } 
     bool operator==(const PhysicalNumber& left, const PhysicalNumber& right){
@@ -147,8 +220,13 @@ namespace ariel{
     std::istream& operator>>(istream& is, const PhysicalNumber& num){
         return is;
     }
-
-
 };
 
-
+    int main() {
+        PhysicalNumber num1(2,Unit::KM);
+        PhysicalNumber num2(500, Unit::SEC);
+        PhysicalNumber test = num1 + num2;
+        std::cout << test.getNumber() << endl;
+        
+        return 0;
+    }

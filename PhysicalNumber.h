@@ -12,17 +12,19 @@ namespace ariel{
         private:
             double number;
             Unit type;
-
-
+        
         public:
-            PhysicalNumber(double num ,Unit unit); 
-            Unit getUnit();
-            double getNumber();
-
+            PhysicalNumber(double num ,Unit unit); //to impliment here
+            
+            double getNumber() const;
+            Unit getUnit() const;
+            void setNumber(const double number);
+            void setUnit(const Unit _type);
+            
             friend std::ostream& operator<<(ostream& os, const PhysicalNumber& num);
             friend std::istream& operator>>(istream& os, const PhysicalNumber& num);
     
-            const PhysicalNumber operator- () const; //unarys
+            const PhysicalNumber operator- (); //unarys
             const PhysicalNumber operator+ () const;
     
             PhysicalNumber& operator++ () ; //prefix(++num)
@@ -36,21 +38,20 @@ namespace ariel{
     
             PhysicalNumber operator+(const PhysicalNumber& num1);
             PhysicalNumber operator-(const PhysicalNumber& num1);
+            
     
             friend bool operator==(const PhysicalNumber& left, const PhysicalNumber& right);
             friend bool operator!=(const PhysicalNumber& left, const PhysicalNumber& right);
             friend bool operator<(const PhysicalNumber& left, const PhysicalNumber& right);
             friend bool operator>(const PhysicalNumber& left, const PhysicalNumber& right);
             friend bool operator>=(const PhysicalNumber& left, const PhysicalNumber& right);
-            friend bool operator<=(const PhysicalNumber& left, const PhysicalNumber& right);   
-            
-            private:
-            void sameDimension(const PhysicalNumber& num)const;
+            friend bool operator<=(const PhysicalNumber& left, const PhysicalNumber& right);
+
+        private:
+            bool sameDimension(const PhysicalNumber& num)const;
             double coefficientConvert(Unit type2);
             const PhysicalNumber convert(double convert,const PhysicalNumber& num);
 
-
     };
 
-
-}
+ }
