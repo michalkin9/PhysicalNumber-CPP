@@ -54,21 +54,21 @@ namespace ariel{
              break;
         //Time dimention
          case 1:
-         if(type2 == Unit::SEC && this->type == Unit::MIN) { coefficient = 0.0166667; } 
-         if(type2 == Unit::SEC && this->type == Unit::HOUR) { coefficient = 0.000277778; }
-         if(type2 == Unit::MIN && this->type == Unit::SEC) { coefficient = 60; }
-         if(type2 == Unit::MIN && this->type == Unit::HOUR) { coefficient = 0.0166667; }
-         if(type2 == Unit::HOUR && this->type == Unit::SEC) { coefficient = 3600; }
-         if(type2 == Unit::HOUR && this->type == Unit::MIN) { coefficient = 60; }
+         if(type2 == Unit::SEC && this->type == Unit::MIN) { coefficient = 0.0166667; }     //sec to min
+         if(type2 == Unit::SEC && this->type == Unit::HOUR) { coefficient = 0.000277778; }  //sec to hour
+         if(type2 == Unit::MIN && this->type == Unit::SEC) { coefficient = 60; }            //min to sec
+         if(type2 == Unit::MIN && this->type == Unit::HOUR) { coefficient = 0.0166667; }    //min to hour
+         if(type2 == Unit::HOUR && this->type == Unit::SEC) { coefficient = 3600; }         //hour to sec
+         if(type2 == Unit::HOUR && this->type == Unit::MIN) { coefficient = 60; }           //hour to min
              break;
         //Weight dimention
          case 2:
-         if(type2 == Unit::G && this->type == Unit::KG) { coefficient = 0.001;  }
-         if(type2 == Unit::G && this->type == Unit::TON) { coefficient = 0.000001; }
-         if(type2 == Unit::KG && this->type == Unit::G) { coefficient = 1000; }
-         if(type2 == Unit::KG && this->type == Unit::TON) { coefficient = 0.001; }
-         if(type2 == Unit::TON && this->type == Unit::G) { coefficient = 1000000; }
-         if(type2 == Unit::TON && this->type == Unit::KG) { coefficient = 1000; }
+         if(type2 == Unit::G && this->type == Unit::KG) { coefficient = 0.001;  }       //gr to kg       
+         if(type2 == Unit::G && this->type == Unit::TON) { coefficient = 0.000001; }    //gr to ton
+         if(type2 == Unit::KG && this->type == Unit::G) { coefficient = 1000; }         //kg to gr
+         if(type2 == Unit::KG && this->type == Unit::TON) { coefficient = 0.001; }      //kg to ton
+         if(type2 == Unit::TON && this->type == Unit::G) { coefficient = 1000000; }     //ton to gr
+         if(type2 == Unit::TON && this->type == Unit::KG) { coefficient = 1000; }       //ton to kg
              break;
      
          default:
@@ -78,9 +78,12 @@ namespace ariel{
      return coefficient; 
     }
 
-    const PhysicalNumber convert(int convert,const PhysicalNumber& num){
-        //to do//
+    //gets the coeffiecnt convert and the PhysicalNumber that need to be convert - returns new one
+    const PhysicalNumber PhysicalNumber::convert(double convert,const PhysicalNumber& num){
+        Unit new_unit = this->type;
+        double new_number = num.number * convert;
 
+        return PhysicalNumber(new_number,new_unit); 
     }
 
 
