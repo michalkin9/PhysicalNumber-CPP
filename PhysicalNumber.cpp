@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdio.h>
+#include <stdexcept>
 #include "PhysicalNumber.h"
 #include "Unit.h"
 using namespace std;
@@ -41,7 +42,7 @@ namespace ariel{
     
     }
     
-    double PhysicalNumber::coefficientConvert(Unit type2){
+    double PhysicalNumber::coefficientConvert(const Unit type2)const{
     double coefficient=1;
     int dimension =(int)this->type % 3;  
 
@@ -106,7 +107,7 @@ namespace ariel{
             //PhysicalNumber result(res, resultUnit);
             return *this;
         }
-        else throw string("Physical numbers are not from the same dimension.");
+        else error();
     }
 
     const PhysicalNumber& PhysicalNumber::operator-= (const PhysicalNumber& other){ //works!
@@ -120,12 +121,12 @@ namespace ariel{
             //PhysicalNumber result(res, resultUnit);
             return *this;
         }
-        else throw string("Physical numbers are not from the same dimension.");
+        else error();
     }
     
     PhysicalNumber PhysicalNumber::operator+ (const PhysicalNumber& other){ //works!
         if(!sameDimension(other)){
-            throw string("Physical numbers are not from the same dimension.");
+            error();
         }
         else{
             double coef = this->coefficientConvert(other.getUnit());
@@ -141,7 +142,7 @@ namespace ariel{
     
     PhysicalNumber PhysicalNumber::operator- (const PhysicalNumber& other){ //works!
         if(!sameDimension(other)){
-            throw string("Physical numbers are not from the same dimension.");
+            error();
         }
         else{
             double coef = this->coefficientConvert(other.getUnit());
@@ -196,8 +197,15 @@ namespace ariel{
     
     bool operator>=(const PhysicalNumber& left, const PhysicalNumber& right){ 
     
+        // if(!sameDimension(other)){
+        //     error();
+        // }
+        // else{
+            
+            
         return true;
-    } 
+   // }
+    }
     bool operator==(const PhysicalNumber& left, const PhysicalNumber& right){
         return true;
     }
@@ -205,11 +213,20 @@ namespace ariel{
         return true;
     }
     bool operator<(const PhysicalNumber& left, const PhysicalNumber& right){
+        
         return true;
     }
-    bool operator>(const PhysicalNumber& left, const PhysicalNumber& right){
-        return true;
+    bool PhysicalNumber::operator>(const PhysicalNumber& right)const{
+        if(!sameDimension(right)){
+            error();
+        }
+        else{
+            double coef = this->coefficientConvert(right.getUnit());
+            double compNumber = right.number * coef;
+            return this->number < compNumber ? false : true;
+        }
     }
+    
     bool operator<=(const PhysicalNumber& left, const PhysicalNumber& right){
         return true;
     }
@@ -220,13 +237,17 @@ namespace ariel{
     std::istream& operator>>(istream& is, const PhysicalNumber& num){
         return is;
     }
+    
+    void PhysicalNumber::error() const{
+        throw runtime_error("PhysicalNumbers are not from the same dimension.");
+    }
 };
 
     int main() {
         PhysicalNumber num1(2,Unit::KM);
         PhysicalNumber num2(500, Unit::SEC);
-        PhysicalNumber test = num1 + num2;
-        std::cout << test.getNumber() << endl;
+        bool value = num2 > num1;
+        std::cout << value << endl;
         
         return 0;
     }

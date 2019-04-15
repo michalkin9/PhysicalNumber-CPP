@@ -43,14 +43,15 @@ namespace ariel{
             friend bool operator==(const PhysicalNumber& left, const PhysicalNumber& right);
             friend bool operator!=(const PhysicalNumber& left, const PhysicalNumber& right);
             friend bool operator<(const PhysicalNumber& left, const PhysicalNumber& right);
-            friend bool operator>(const PhysicalNumber& left, const PhysicalNumber& right);
+            bool operator>(const PhysicalNumber& right)const;
             friend bool operator>=(const PhysicalNumber& left, const PhysicalNumber& right);
             friend bool operator<=(const PhysicalNumber& left, const PhysicalNumber& right);
 
         private:
             bool sameDimension(const PhysicalNumber& num)const;
-            double coefficientConvert(Unit type2);
+            double coefficientConvert(const Unit type2)const;
             const PhysicalNumber convert(double convert,const PhysicalNumber& num);
+            void error() const;
 
     };
 
