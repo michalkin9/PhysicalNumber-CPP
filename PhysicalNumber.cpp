@@ -195,26 +195,45 @@ namespace ariel{
         return res;
     }
     
-    bool operator>=(const PhysicalNumber& left, const PhysicalNumber& right){ 
-    
-        // if(!sameDimension(other)){
-        //     error();
-        // }
-        // else{
-            
-            
-        return true;
-   // }
+    bool PhysicalNumber::operator>=(const PhysicalNumber& right)const{ 
+        if(!sameDimension(right)){
+            error();
+        }
+        else{
+            double coef = this->coefficientConvert(right.getUnit());
+            double compNumber = right.number * coef;
+            return (!(this->number < compNumber))  ? true : false;
+        }
     }
-    bool operator==(const PhysicalNumber& left, const PhysicalNumber& right){
-        return true;
+    bool PhysicalNumber::operator==(const PhysicalNumber& right)const{
+        if(!sameDimension(right)){
+            error();
+        }
+        else{
+            double coef = this->coefficientConvert(right.getUnit());
+            double compNumber = right.number * coef;
+            return (this->number == compNumber)  ? true : false;
+        }
     }
-    bool operator!=(const PhysicalNumber& left, const PhysicalNumber& right){
-        return true;
+    bool PhysicalNumber::operator!=(const PhysicalNumber& right)const{
+         if(!sameDimension(right)){
+            error();
+        }
+        else{
+            double coef = this->coefficientConvert(right.getUnit());
+            double compNumber = right.number * coef;
+            return (this->number < compNumber) || (this->number > compNumber)  ? true : false;
+        }
     }
-    bool operator<(const PhysicalNumber& left, const PhysicalNumber& right){
-        
-        return true;
+    bool PhysicalNumber::operator<(const PhysicalNumber& right)const{
+         if(!sameDimension(right)){
+            error();
+        }
+        else{
+            double coef = this->coefficientConvert(right.getUnit());
+            double compNumber = right.number * coef;
+            return this->number < compNumber ? true : false;
+        }
     }
     bool PhysicalNumber::operator>(const PhysicalNumber& right)const{
         if(!sameDimension(right)){
@@ -227,8 +246,15 @@ namespace ariel{
         }
     }
     
-    bool operator<=(const PhysicalNumber& left, const PhysicalNumber& right){
-        return true;
+    bool PhysicalNumber::operator<=(const PhysicalNumber& right)const{
+        if(!sameDimension(right)){
+            error();
+        }
+        else{
+            double coef = this->coefficientConvert(right.getUnit());
+            double compNumber = right.number * coef;
+            return (!(this->number > compNumber))  ? true : false;
+        }
     }
     
     std::ostream& operator<<(ostream& os, const PhysicalNumber& num){
@@ -244,9 +270,9 @@ namespace ariel{
 };
 
     int main() {
-        PhysicalNumber num1(2,Unit::KM);
-        PhysicalNumber num2(500, Unit::SEC);
-        bool value = num2 > num1;
+        PhysicalNumber num1(60,Unit::SEC);
+        PhysicalNumber num2(1, Unit::MIN);
+        bool value = (num2 == num1);
         std::cout << value << endl;
         
         return 0;
