@@ -40,12 +40,12 @@ namespace ariel{
             PhysicalNumber operator-(const PhysicalNumber& num1);
             
     
-            friend bool operator==(const PhysicalNumber& left, const PhysicalNumber& right);
-            friend bool operator!=(const PhysicalNumber& left, const PhysicalNumber& right);
-            friend bool operator<(const PhysicalNumber& left, const PhysicalNumber& right);
+            bool operator==(const PhysicalNumber& right)const;
+            bool operator!=(const PhysicalNumber& right)const;
+            bool operator< (const PhysicalNumber& right)const;
             bool operator>(const PhysicalNumber& right)const;
-            friend bool operator>=(const PhysicalNumber& left, const PhysicalNumber& right);
-            friend bool operator<=(const PhysicalNumber& left, const PhysicalNumber& right);
+            bool operator>=(const PhysicalNumber& right)const;
+            bool operator<=(const PhysicalNumber& right)const;
 
         private:
             bool sameDimension(const PhysicalNumber& num)const;
@@ -55,4 +55,4 @@ namespace ariel{
 
     };
 
- }
+}
