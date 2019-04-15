@@ -258,7 +258,19 @@ namespace ariel{
     }
     
     std::ostream& operator<<(ostream& os, const PhysicalNumber& num){
-        return os;
+        string strType;
+        switch(num.type){
+            case Unit::CM: strType = "[cm]"; break;
+            case Unit::SEC: strType = "[sec]"; break;
+            case Unit::G: strType = "[g]"; break;
+            case Unit::M: strType = "[m]"; break;
+            case Unit::MIN: strType = "[min]"; break;
+            case Unit::KG: strType = "[kg]"; break;
+            case Unit::KM: strType = "[km]"; break;
+            case Unit::HOUR: strType = "[hour]"; break;
+            case Unit::TON: strType = "[ton]"; break;
+        }
+        return os << num.number << strType;
     }
     std::istream& operator>>(istream& is, const PhysicalNumber& num){
         return is;
@@ -272,8 +284,8 @@ namespace ariel{
     int main() {
         PhysicalNumber num1(60,Unit::SEC);
         PhysicalNumber num2(1, Unit::MIN);
-        bool value = (num2 == num1);
-        std::cout << value << endl;
+        PhysicalNumber res = num1 + num2;
+        std::cout << res << endl;
         
         return 0;
     }
