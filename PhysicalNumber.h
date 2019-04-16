@@ -25,17 +25,17 @@ namespace ariel{
             friend ostream& operator<<(ostream& os, const PhysicalNumber& num);
             friend istream& operator>>(istream& os,  PhysicalNumber& num);
     
-            const PhysicalNumber operator- (); //unarys
-            const PhysicalNumber operator+ () const;
+            PhysicalNumber operator- ()const ; //unarys
+            PhysicalNumber operator+ () const;
     
             PhysicalNumber& operator++ () ; //prefix(++num)
-            const PhysicalNumber operator++ (int) ; //postfix(num++)
+            PhysicalNumber operator++ (int) ; //postfix(num++)
     
             PhysicalNumber& operator-- () ; //prefix(++num)
-            const PhysicalNumber operator-- (int) ; //postfix(num++)
+            PhysicalNumber operator-- (int) ; //postfix(num++)
     
-            const PhysicalNumber& operator+= (const PhysicalNumber& num);
-            const PhysicalNumber& operator-= (const PhysicalNumber& num);
+            PhysicalNumber& operator+= (const PhysicalNumber& num);
+            PhysicalNumber& operator-= (const PhysicalNumber& num);
     
             PhysicalNumber operator+(const PhysicalNumber& num1);
             PhysicalNumber operator-(const PhysicalNumber& num1);
@@ -51,7 +51,7 @@ namespace ariel{
         private:
             bool sameDimension(const PhysicalNumber& num)const;
             double coefficientConvert(const Unit type2)const;
-            const PhysicalNumber convert(double convert,const PhysicalNumber& num);
+            PhysicalNumber convert(double convert,const PhysicalNumber& num)const;
             void error() const;
             bool isNumber(const string& s);
 

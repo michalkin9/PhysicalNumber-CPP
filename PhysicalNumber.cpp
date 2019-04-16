@@ -6,7 +6,7 @@
 using namespace std;
 using namespace ariel;
 
-namespace ariel{
+
 
     Unit PhysicalNumber::getUnit() const{
         return type;
@@ -27,11 +27,6 @@ namespace ariel{
     PhysicalNumber::PhysicalNumber(double _number, Unit _type){
         this->number = _number;
         this->type = _type;
-    }
-
-    PhysicalNumber::PhysicalNumber(){
-        this->number=0;
-        this->type = Unit::CM;
     }
     
     //checks if from the same dimension, if not throws exception
@@ -94,14 +89,14 @@ namespace ariel{
     }
 
     //gets the coeffiecnt convert and the PhysicalNumber that need to be convert - returns new one
-    const PhysicalNumber PhysicalNumber::convert(double convert,const PhysicalNumber& num){
+     PhysicalNumber PhysicalNumber::convert(double convert,const PhysicalNumber& num) const{
         Unit new_unit = this->type;
         double new_number = num.number * convert;
 
         return PhysicalNumber(new_number,new_unit); 
     }
     
-    const PhysicalNumber& PhysicalNumber::operator+= (const PhysicalNumber& other){ // ****************new*********************
+     PhysicalNumber& PhysicalNumber::operator+= (const PhysicalNumber& other){ // ****************new*********************
         if(this->sameDimension(other)){
             double coef = this->coefficientConvert(other.getUnit());
             PhysicalNumber sameUnit = this->convert(coef, other);
@@ -115,7 +110,7 @@ namespace ariel{
         else error();
     }
 
-    const PhysicalNumber& PhysicalNumber::operator-= (const PhysicalNumber& other){ //works!
+     PhysicalNumber& PhysicalNumber::operator-= (const PhysicalNumber& other){ //works!
         if(sameDimension(other)){
             double coef = this->coefficientConvert(other.getUnit());
             PhysicalNumber sameUnit = this->convert(coef, other);
@@ -161,13 +156,13 @@ namespace ariel{
         }
     }
     
-    const PhysicalNumber PhysicalNumber::operator- (){ //works!
+     PhysicalNumber PhysicalNumber::operator- ()const { //works!
         double newNum = this->getNumber();
         newNum *= (-1);
         return PhysicalNumber(newNum,this->type);
     }
     
-    const PhysicalNumber PhysicalNumber::operator+ () const{ //works!
+    PhysicalNumber PhysicalNumber::operator+ () const{ //works!
         return *this;
     }
     
@@ -179,7 +174,7 @@ namespace ariel{
     }
     
     //postfix :: (num++)
-    const PhysicalNumber PhysicalNumber::operator++ (int) { // works!
+     PhysicalNumber PhysicalNumber::operator++ (int) { // works!
         PhysicalNumber res(this->getNumber(), this->getUnit());
         double newNum = this->getNumber();
          this->number++;
@@ -194,7 +189,7 @@ namespace ariel{
     }
     
     //postfix :: (num--)
-    const PhysicalNumber PhysicalNumber::operator-- (int) { //works!
+    PhysicalNumber PhysicalNumber::operator-- (int) { //works!
         PhysicalNumber res(this->getNumber(), this->getUnit());
         double newNum = this->getNumber();
        this->number--;
@@ -221,7 +216,7 @@ namespace ariel{
             return (this->number == compNumber)  ? true : false;
         }
     }
-    bool PhysicalNumber::operator!=(const PhysicalNumber& right)const{
+    bool PhysicalNumber::operator!=(const PhysicalNumber& right) const{
          if(!sameDimension(right)){
             error();
         }
@@ -263,7 +258,7 @@ namespace ariel{
         }
     }
     
-    std::ostream& operator<<(ostream& os, const PhysicalNumber& num){
+    std::ostream& ariel::operator<<(ostream& os, const PhysicalNumber& num){
         string strType;
         switch(num.type){
             case Unit::CM: strType = "[cm]"; break;
@@ -278,7 +273,6 @@ namespace ariel{
         }
         return os << num.number << strType;
     }
-	
     bool isNumber(const string& s) {
 	    if(s.size()==0) return false;
 	    for(int i=0;i<s.size();i++) {
@@ -289,7 +283,7 @@ namespace ariel{
 	    return true;
     }
     
-    std::istream& operator>>(istream& is, PhysicalNumber& num){
+    std::istream& ariel::operator>>(istream& is, PhysicalNumber& num){
         string input;
         double newNum = 0;
         string _value;
@@ -347,10 +341,9 @@ namespace ariel{
         
         num.setNumber(newNum);
         return is;
+
     }
-    
     
     void PhysicalNumber::error() const{
         throw runtime_error("PhysicalNumbers are not from the same dimension.");
     }
-};
