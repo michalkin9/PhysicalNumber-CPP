@@ -273,9 +273,77 @@ namespace ariel{
         }
         return os << num.number << strType;
     }
-    std::istream& operator>>(istream& is, const PhysicalNumber& num){
+	
+    bool isNumber(const string& s) {
+	    if(s.size()==0) return false;
+	    for(int i=0;i<s.size();i++) {
+		if((s[i]>='0' && s[i]<='9')==false) {
+		    return false;
+		}
+	    }
+	    return true;
+    }
+    
+    std::istream& operator>>(istream& is, PhysicalNumber& num){
+        string input;
+        double newNum = 0;
+        string _value;
+        is >> input;
+
+        int foundStart = input.find("[");
+        
+        _value = input.substr(0, foundStart);
+        
+        if(foundStart <= 0 || !isNumber(_value)){
+            is.setstate(std::ios::badbit);
+            is.clear();
+            return is;
+        }
+        
+        if (input.find("[cm]") != -1){
+            num.setUnit(Unit::CM);
+        }
+        else if (input.find("[sec]") != -1){
+            num.setUnit(Unit::SEC);
+        }
+        else if (input.find("[g]") != -1){
+            num.setUnit(Unit::G);
+        }
+        else if (input.find("[m]") != -1){
+            num.setUnit(Unit::M);
+        }
+        else if (input.find("[min]") != -1){
+            num.setUnit(Unit::MIN);
+        }
+        else if (input.find("[kg]") != -1){
+            num.setUnit(Unit::KG);
+        }
+        else if (input.find("[km]") != -1){
+            num.setUnit(Unit::KM);
+        }
+        else if (input.find("[hour]") != -1){
+            num.setUnit(Unit::HOUR);
+        }
+        else if (input.find("[ton]") != -1){
+            num.setUnit(Unit::TON);
+        }
+        else{
+            is.setstate(std::ios::badbit);
+            return is;
+        }
+        
+        try{
+            newNum = std::stod(_value);
+        }catch(std::exception& e){
+            is.setstate(std::ios::badbit);
+            is.clear();
+            return is;
+        }
+        
+        num.setNumber(newNum);
         return is;
     }
+    
     
     void PhysicalNumber::error() const{
         throw runtime_error("PhysicalNumbers are not from the same dimension.");
