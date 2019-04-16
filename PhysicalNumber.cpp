@@ -274,13 +274,18 @@ using namespace ariel;
         return os << num.number << strType;
     }
     bool isNumber(const string& s) {
-	    if(s.size()==0) return false;
-	    for(int i=0;i<s.size();i++) {
+	    bool dot = false;
+    	    if(s.size()==0) return false;
+            for(int i=0;i<s.size();i++) {
+		if(!dot && s[i] == '.'){
+		    dot = true;
+		    continue;
+		}
 		if((s[i]>='0' && s[i]<='9')==false) {
 		    return false;
 		}
-	    }
-	    return true;
+    	    }
+    	    return true;
     }
     
     std::istream& ariel::operator>>(istream& is, PhysicalNumber& num){
