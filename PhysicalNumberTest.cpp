@@ -121,7 +121,7 @@ int main() {
 	.CHECK_OUTPUT((time3+=time2), "22[min]")
 	.CHECK_OUTPUT((weight2+=weight1), "1.2[kg]")
 	.CHECK_OUTPUT((weight3+=weight4), "4.1[ton]")
-	.CHECK_OUTPUT((weight3+=weight2), "4.10132277[ton]")
+	.CHECK_OUTPUT((weight3+=weight2), "4.1012[ton]")
 	.CHECK_OUTPUT((dist1+=dist2), "1.5[km]")
 	.CHECK_OUTPUT((dist4+=dist3), "110[cm]")
 	.CHECK_OUTPUT((dist4+=dist1), "150110[cm]")
@@ -136,17 +136,17 @@ int main() {
 	.CHECK_OUTPUT((weight2-=weight1), "1[kg]")
 	.CHECK_OUTPUT((time3-=time2), "2[min]")
 	.CHECK_OUTPUT((time3-=time4), "1[min]")
-	.CHECK_OUTPUT((time1-=time5), "1[hour]")
+	.CHECK_OUTPUT((time1-=time5), "2[hour]")
 	
 	.setname("The operator '++(postfix)' unary - Compatible dimensions")
-    .CHECK_OUTPUT(time1++,"3[hour]")                                       
-    .CHECK_OUTPUT(dist2++,"501[m]")                                       
-    .CHECK_OUTPUT(weight2++,"2[kg]")                                      
+    .CHECK_OUTPUT(time1++,"2[hour]")                                       
+    .CHECK_OUTPUT(dist2++,"500[m]")                                     
+    .CHECK_OUTPUT(weight2++,"1[kg]")                                      
  
     .setname("Operator '--(postfix)' unary - Compatible dimensions")
-    .CHECK_OUTPUT(time1--,"2[hour]")                                       
-    .CHECK_OUTPUT(dist2--,"500[m]")                                       
-    .CHECK_OUTPUT(weight2--,"1[kg]")                                      
+    .CHECK_OUTPUT(time1--,"3[hour]")                                       
+    .CHECK_OUTPUT(dist2--,"501[m]")                                       
+    .CHECK_OUTPUT(weight2--,"2[kg]")                                      
 
 	.setname("The operator '++(postfix)' unary - Compatible dimensions")
     .CHECK_OUTPUT(++time1,"3[hour]")                                       
@@ -160,7 +160,7 @@ int main() {
 	
 	.setname("Operator '-' unary - Compatible dimensions")
     .CHECK_EQUAL(-PhysicalNumber(5,Unit::TON),PhysicalNumber(-5,Unit::TON))
-    .CHECK_EQUAL(PhysicalNumber(-10,Unit::CM),dist4 )   
+    .CHECK_EQUAL(PhysicalNumber(-10,Unit::CM),-dist4 )   
 
 	.setname("Operator '+' unary - Compatible dimensions")
     .CHECK_EQUAL(+dist1,dist1)

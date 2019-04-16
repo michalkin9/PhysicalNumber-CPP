@@ -59,7 +59,7 @@ namespace ariel{
          if(type2 == Unit::CM && this->type == Unit::KM) { coefficient = 0.00001; } //cm to km
          if(type2 == Unit::M && this->type == Unit::CM) { coefficient = 100; }      //m to cm
          if(type2 == Unit::M && this->type == Unit::KM) { coefficient = 0.001; }    //m to km
-         if(type2 == Unit::KM && this->type == Unit::CM) { coefficient = 10000; }   //km to cm
+         if(type2 == Unit::KM && this->type == Unit::CM) { coefficient = 100000; }   //km to cm
          if(type2 == Unit::KM && this->type == Unit::M) { coefficient = 1000; }     //km to m
              break;
         //Time dimention
@@ -159,39 +159,40 @@ namespace ariel{
     const PhysicalNumber PhysicalNumber::operator- (){ //works!
         double newNum = this->getNumber();
         newNum *= (-1);
-        this->setNumber(newNum);
-        return *this;
+        return PhysicalNumber(newNum,this->type);
     }
     
     const PhysicalNumber PhysicalNumber::operator+ () const{ //works!
         return *this;
     }
     
+    //prefix :: (++num)
     PhysicalNumber& PhysicalNumber::operator++ () { // works!
         double newNum = this->getNumber();
         this->setNumber(++newNum);
         return *this;
     }
     
+    //postfix :: (num++)
     const PhysicalNumber PhysicalNumber::operator++ (int) { // works!
         PhysicalNumber res(this->getNumber(), this->getUnit());
         double newNum = this->getNumber();
-        ++newNum;
-        this->setNumber(newNum);
+         this->number++;
         return res;
     }
-    
+
+    //prefix :: (++num)
     PhysicalNumber& PhysicalNumber::operator-- () { //works!
         double newNum = this->getNumber();
         this->setNumber(--newNum);
         return *this;
     }
     
+    //postfix :: (num--)
     const PhysicalNumber PhysicalNumber::operator-- (int) { //works!
         PhysicalNumber res(this->getNumber(), this->getUnit());
         double newNum = this->getNumber();
-        --newNum;
-        res.setNumber(newNum);
+       this->number--;
         return res;
     }
     
@@ -280,12 +281,3 @@ namespace ariel{
         throw runtime_error("PhysicalNumbers are not from the same dimension.");
     }
 };
-
-    int main() {
-        PhysicalNumber num1(60,Unit::SEC);
-        PhysicalNumber num2(1, Unit::MIN);
-        PhysicalNumber res = num1 + num2;
-        std::cout << res << endl;
-        
-        return 0;
-    }
