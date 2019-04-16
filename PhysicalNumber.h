@@ -52,6 +52,7 @@ namespace ariel{
             double coefficientConvert(const Unit type2)const;
             const PhysicalNumber convert(double convert,const PhysicalNumber& num);
             void error() const;
+            bool isNumber(const string& s);
 
     };
 
