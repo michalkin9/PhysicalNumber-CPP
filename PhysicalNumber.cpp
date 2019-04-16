@@ -6,7 +6,7 @@
 using namespace std;
 using namespace ariel;
 
-namespace ariel{
+
 
     Unit PhysicalNumber::getUnit() const{
         return type;
@@ -27,6 +27,11 @@ namespace ariel{
     PhysicalNumber::PhysicalNumber(double _number, Unit _type){
         this->number = _number;
         this->type = _type;
+    }
+
+    PhysicalNumber::PhysicalNumber(){
+        this->number=0;
+        this->type = Unit::CM;
     }
     
     //checks if from the same dimension, if not throws exception
@@ -258,7 +263,7 @@ namespace ariel{
         }
     }
     
-    std::ostream& operator<<(ostream& os, const PhysicalNumber& num){
+    std::ostream& ariel::operator<<(ostream& os, const PhysicalNumber& num){
         string strType;
         switch(num.type){
             case Unit::CM: strType = "[cm]"; break;
@@ -284,7 +289,7 @@ namespace ariel{
 	    return true;
     }
     
-    std::istream& operator>>(istream& is, PhysicalNumber& num){
+    std::istream& ariel::operator>>(istream& is, PhysicalNumber& num){
         string input;
         double newNum = 0;
         string _value;
@@ -348,4 +353,3 @@ namespace ariel{
     void PhysicalNumber::error() const{
         throw runtime_error("PhysicalNumbers are not from the same dimension.");
     }
-};

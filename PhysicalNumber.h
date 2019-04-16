@@ -15,14 +15,15 @@ namespace ariel{
         
         public:
             PhysicalNumber(double num ,Unit unit); //to impliment here
+            PhysicalNumber();
             
             double getNumber() const;
             Unit getUnit() const;
             void setNumber(const double number);
             void setUnit(const Unit _type);
             
-            friend std::ostream& operator<<(ostream& os, const PhysicalNumber& num);
-            friend std::istream& operator>>(istream& os, const PhysicalNumber& num);
+            friend ostream& operator<<(ostream& os, const PhysicalNumber& num);
+            friend istream& operator>>(istream& os,  PhysicalNumber& num);
     
             const PhysicalNumber operator- (); //unarys
             const PhysicalNumber operator+ () const;
