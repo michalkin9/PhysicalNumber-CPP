@@ -14,18 +14,20 @@ namespace ariel{
             Unit type;
         
         public:
-            PhysicalNumber(double num ,Unit unit); //to impliment here
-            PhysicalNumber();
+            //Constructor:
+            PhysicalNumber(double num ,Unit unit); 
             
             double getNumber() const;
             Unit getUnit() const;
             void setNumber(const double number);
             void setUnit(const Unit _type);
             
+            //streams:
             friend ostream& operator<<(ostream& os, const PhysicalNumber& num);
             friend istream& operator>>(istream& os,  PhysicalNumber& num);
-    
-            PhysicalNumber operator- ()const ; //unarys
+            
+            //unarys:
+            PhysicalNumber operator- ()const ; 
             PhysicalNumber operator+ () const;
     
             PhysicalNumber& operator++ () ; //prefix(++num)
