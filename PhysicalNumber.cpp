@@ -41,7 +41,7 @@ using namespace ariel;
         return true;
     
     }
-    
+    // calcluate the coeff that needed to multiply with other number in order to get to the same type.
     double PhysicalNumber::coefficientConvert(const Unit type2)const{
     double coefficient=1;
     int dimension =(int)this->type % 3;  
@@ -96,7 +96,7 @@ using namespace ariel;
         return PhysicalNumber(new_number,new_unit); 
     }
     
-     PhysicalNumber& PhysicalNumber::operator+= (const PhysicalNumber& other){ // ****************new*********************
+     PhysicalNumber& PhysicalNumber::operator+= (const PhysicalNumber& other){ 
         if(this->sameDimension(other)){
             double coef = this->coefficientConvert(other.getUnit());
             PhysicalNumber sameUnit = this->convert(coef, other);
@@ -118,7 +118,6 @@ using namespace ariel;
             double secondVal = sameUnit.getNumber(); // conv to default Unit.
             double res = (firstVal - secondVal); // convert to the result unit
             this->setNumber(res);
-            //PhysicalNumber result(res, resultUnit);
             return *this;
         }
         else error();
@@ -156,32 +155,42 @@ using namespace ariel;
         }
     }
     
-     PhysicalNumber PhysicalNumber::operator- ()const { //works!
+     PhysicalNumber PhysicalNumber::operator- ()const { 
         double newNum = this->getNumber();
         newNum *= (-1);
         return PhysicalNumber(newNum,this->type);
     }
     
-    PhysicalNumber PhysicalNumber::operator+ () const{ //works!
+    PhysicalNumber PhysicalNumber::operator+ () const{ 
         return *this;
     }
     
     //prefix :: (++num)
-    PhysicalNumber& PhysicalNumber::operator++ () { // works!
+    //          The prefix function increments the count, and returns this object by reference
+    PhysicalNumber& PhysicalNumber::operator++ () {
         double newNum = this->getNumber();
         this->setNumber(++newNum);
         return *this;
     }
     
     //postfix :: (num++)
-     PhysicalNumber PhysicalNumber::operator++ (int) { // works!
+    //           The postfix function saves the old value 
+    //           (by constructing a new instance with this object via the copy constructor),
+    //           increments the count, and return the saved object by value.
+     PhysicalNumber PhysicalNumber::operator++ (int) {
         PhysicalNumber res(this->getNumber(), this->getUnit());
         double newNum = this->getNumber();
          this->number++;
         return res;
     }
+     /**
+    Since both prefix and postfix operators are unary, a dummy int argument is assigned to postfix operator++()
+    to distinguish it from prefix operator++().
+    The prefix operator returns a reference to this object, but the postfix returns a value.
+    ***/
 
     //prefix :: (++num)
+    //          The prefix function decrements the count, and returns this object by reference
     PhysicalNumber& PhysicalNumber::operator-- () { //works!
         double newNum = this->getNumber();
         this->setNumber(--newNum);
@@ -189,12 +198,21 @@ using namespace ariel;
     }
     
     //postfix :: (num--)
+    //           The postfix function saves the old value 
+    //           (by constructing a new instance with this object via the copy constructor),
+    //           increments the count, and return the saved object by value.
     PhysicalNumber PhysicalNumber::operator-- (int) { //works!
         PhysicalNumber res(this->getNumber(), this->getUnit());
         double newNum = this->getNumber();
        this->number--;
         return res;
     }
+
+    /**
+    Since both prefix and postfix operators are unary, a dummy int argument is assigned to postfix operator++() 
+    to distinguish it from prefix operator++().
+    The prefix operator returns a reference to this object, but the postfix returns a value.
+    ***/
     
     bool PhysicalNumber::operator>=(const PhysicalNumber& right)const{ 
         if(!sameDimension(right)){
@@ -299,12 +317,12 @@ using namespace ariel;
         _value = input.substr(0, foundStart);
         
         if(foundStart <= 0 || !isNumber(_value)){
-            is.setstate(std::ios::badbit);
-            is.clear();
+            is.setstate(std::ios::badbit); // Error due to the failure of an input/output operation on the stream buffer.
+            is.clear(); // This will clear all the stream error state from std::cin.
             return is;
         }
         
-        if (input.find("[cm]") != -1){
+        if (input.find("[cm]") != -1){ // if found
             num.setUnit(Unit::CM);
         }
         else if (input.find("[sec]") != -1){
@@ -332,12 +350,12 @@ using namespace ariel;
             num.setUnit(Unit::TON);
         }
         else{
-            is.setstate(std::ios::badbit);
+            is.setstate(std::ios::badbit); // Error due to the failure of an input/output operation on the stream buffer.
             return is;
         }
         
         try{
-            newNum = std::stod(_value);
+            newNum = std::stod(_value); //convert string into double
         }catch(std::exception& e){
             is.setstate(std::ios::badbit);
             is.clear();
